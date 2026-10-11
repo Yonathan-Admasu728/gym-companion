@@ -45,11 +45,11 @@ a{color:inherit;-webkit-tap-highlight-color:transparent}
 /* ---------- header ---------- */
 .top{position:sticky;top:0;z-index:30;background:var(--bg);padding-top:env(safe-area-inset-top);border-bottom:1px solid var(--line)}
 .bar1{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:48px}
-.when{font-size:15px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.when{font-size:14px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .when b{color:var(--text);font-weight:600}
 .bar1-right{display:flex;align-items:center;gap:8px}
 .pill{font-size:15px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--surface-2);font-variant-numeric:tabular-nums}
-.timer{font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;min-width:58px;text-align:right}
+.timer{font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;min-width:48px;text-align:right}
 .timer.editing{font-size:14px;font-weight:600;color:var(--warn)}
 .icon-btn{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;color:var(--muted)}
 .icon-btn[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent)}
@@ -61,6 +61,30 @@ a{color:inherit;-webkit-tap-highlight-color:transparent}
 .tab[aria-selected="true"] small{color:var(--accent)}
 .tab .live{position:absolute;top:8px;right:9px;width:8px;height:8px;border-radius:50%;background:var(--accent)}
 
+.bar1-left{display:flex;align-items:center;gap:8px;min-width:0}
+.mode{display:flex;gap:2px;padding:2px;border-radius:12px;background:var(--surface-2);flex-shrink:0}
+.mode button{min-height:44px;min-width:52px;padding:0 8px;border-radius:9px;font-size:15px;font-weight:600;color:var(--muted)}
+.mode button[aria-pressed="true"]{background:var(--surface);color:var(--text);box-shadow:0 0 0 1px var(--accent-line) inset}
+.tab b.long{font-size:15px;letter-spacing:.05em}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin:0 0 10px}
+.wk{display:flex;flex-direction:column;align-items:center;padding:5px 0;border-radius:8px;background:var(--surface);border:1px solid var(--line);line-height:1.15;min-width:0}
+.wk b{font-size:12px;font-weight:700;color:var(--muted)}
+.wk small{font-size:10.5px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.wk.home small{color:var(--accent)}
+.wk.today{border-color:var(--accent-line);background:var(--accent-soft)}
+.wk.today b{color:var(--text)}
+.circuit-note{margin:16px 0 0;padding:12px 14px;border-radius:12px;border:1px dashed var(--accent-line);font-size:15px;color:var(--muted)}
+.circuit-note b{color:var(--text)}
+.flow-moves{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.flow-moves li{font-size:14px;padding:6px 10px;border-radius:999px;background:var(--surface-2);color:var(--text)}
+.rounds{display:flex;gap:6px}
+.rounds .chip{width:auto;flex:1}
+.steppers.one{grid-template-columns:1fr}
+.hold-foot{grid-template-columns:1fr auto}
+.hold-run{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:4px;padding:0 4px}
+.hold-sub{font-size:13px;color:var(--muted)}
+.hold-sub.in{color:var(--accent);font-weight:600}
+.hold-stop{height:54px;min-width:104px;border-radius:12px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:18px;flex-shrink:0}
 /* ---------- intro ---------- */
 .intro{padding:16px 0 4px}
 .intro-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
@@ -278,20 +302,21 @@ details.exh[open] summary{border-bottom:1px solid var(--line)}
 <header class="top" id="top">
   <div class="wrap">
     <div class="bar1">
-      <div class="when" id="hdrWhen"></div>
+      <div class="bar1-left">
+        <div class="mode" role="group" aria-label="Gym or home">
+          <button data-act="mode" data-mode="gym" aria-pressed="true">Gym</button>
+          <button data-act="mode" data-mode="home" aria-pressed="false">Home</button>
+        </div>
+        <div class="when" id="hdrWhen"></div>
+      </div>
       <div class="bar1-right">
-        <span class="pill" id="hdrProg" hidden></span>
         <span class="timer" id="hdrTimer" hidden></span>
         <button class="icon-btn" id="btnHistory" data-act="view-history" aria-label="History and backup" aria-pressed="false">
           <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1L3.5 8.5"/><path d="M3.5 3.5v5h5"/><path d="M12 7.5V12l3 2"/></svg>
         </button>
       </div>
     </div>
-    <nav class="tabs" role="tablist" aria-label="Gym day">
-      <button class="tab" role="tab" data-act="view-day" data-day="d1"><b>DAY 1</b><small>Mon</small></button>
-      <button class="tab" role="tab" data-act="view-day" data-day="d2"><b>DAY 2</b><small>Wed</small></button>
-      <button class="tab" role="tab" data-act="view-day" data-day="d3"><b>DAY 3</b><small>Fri</small></button>
-    </nav>
+    <nav class="tabs" id="tabs" role="tablist" aria-label="Day"></nav>
   </div>
 </header>
 
@@ -448,11 +473,71 @@ const MOVES = {
           ['Brace','Brace your core and keep breathing.'],
           ['Logging','Weight per hand + seconds carried.']],
     video:{id:'OhUQmwK8D_Q', ch:'E3 Rehab', len:'0:13'} },
+
+  /* ---- Home: isometric holds. Source + doses: FitZip, "The Workout Method Everyone Is Copying Right Now" ---- */
+  'iso-push': { name:'Overcoming Isometric Push', next:'keep it at 8–10 s and push harder, not longer',
+    cues:[['Setup','Hands at chest height on a door frame or wall; staggered stance.'],
+          ['Brace','Brace your whole body as if moving a wall that will never move.'],
+          ['Effort','Push as hard as you can for the whole hold. Nothing moves.'],
+          ['Breathe','Breathe out slowly through the push — no breath-holding or straining.']],
+    video:{id:'p3rjL4i7xhY', t:16, ch:'FitZip'} },
+  'horse-stance': { name:'Horse Stance', next:'add about 5 s, or sink a little lower',
+    cues:[['Setup','Wide stance, feet turned slightly out, knees tracking over toes.'],
+          ['Depth','Thighs as close to parallel as you can hold with good form.'],
+          ['Posture','Spine tall, weight even through both feet.'],
+          ['Expect','Legs shaking around 30 s is normal — keep breathing.']],
+    video:{id:'p3rjL4i7xhY', t:104, ch:'FitZip'} },
+  'superman-hold': { name:'Superman Hold', next:'add about 5 s',
+    cues:[['Setup','Face down, arms straight in front, legs straight behind.'],
+          ['Lift','Arms, chest and legs up together — only stomach and hips touch.'],
+          ['Squeeze','Glutes, lower back and shoulders: one long line, fingertips to toes.'],
+          ['Neck','Eyes on the floor; don\'t crank your head up.']],
+    video:{id:'p3rjL4i7xhY', t:178, ch:'FitZip'} },
+  'pullup-hold': { name:'Isometric Pull-Up Hold', next:'add about 5 s',
+    cues:[['Setup','Pull up until your chin clears the bar, then stop and hold.'],
+          ['Shoulders','Blades down and back, "into your back pockets" — no shrugging.'],
+          ['Exit','Lower slowly at the end.']],
+    video:{id:'p3rjL4i7xhY', t:302, ch:'FitZip'} },
+  'pullup-hold-assisted': { name:'Assisted Pull-Up Hold', next:'use less leg help, or try the full bar hold',
+    cues:[['Setup','Low bar with feet on the floor and knees bent, or a band over the bar.'],
+          ['Hold','Same top position: chin over the bar, shoulders down.'],
+          ['Progress','Use less leg help as you get stronger.']],
+    video:{id:'p3rjL4i7xhY', t:390, ch:'FitZip'} },
+  'handstand-couch': { name:'Pike Hold · Feet on Couch', next:'try the wall version',
+    cues:[['Setup','Feet on a couch or low step, hands on the floor, hips high.'],
+          ['Shape','Arms locked, keep pressing the floor away from you.'],
+          ['Hands','Fingers spread, weight through the fingertips — not sinking into the wrists.'],
+          ['Gaze','Eyes on the floor between your hands.']],
+    video:{id:'p3rjL4i7xhY', t:490, ch:'FitZip'} },
+  'handstand-wall': { name:'Wall Handstand Hold', next:'add about 5 s',
+    cues:[['Setup','Walk your feet up the wall until you are vertical, arms locked.'],
+          ['Stack','Hips over shoulders; keep pressing the floor away.'],
+          ['Hands','Fingers spread, press through the fingertips — don\'t sink into the wrists.'],
+          ['Gaze','Eyes on the floor between your hands.']],
+    video:{id:'p3rjL4i7xhY', t:410, ch:'FitZip'} },
+};
+
+/* ---- Home: LeoMoves follow-along flows. Times are where each part starts/ends in the video. ---- */
+const FLOW_VIDEOS = {
+  primal: { id:'O7KQugJUrJ0', ch:'LeoMoves', title:'28 Minutes of Primal Movement' },
+  upper:  { id:'cziN6XZNY_I', ch:'LeoMoves', title:'Effective 20 Min Upper Body Workout' },
+};
+const FLOW_PARTS = {
+  'primal-warmup':   { vid:'primal', name:'Primal Warm-up', from:20, to:340, format:'8 moves × 30 s',
+    moves:['Deep squat','Kneel to stand','Wrist prep','Crab toe touch','Long-sit hamstring reach','Lunge to kneeling twist','Hollow body','Down dog to cobra'] },
+  'primal-main':     { vid:'primal', name:'Primal Flow', from:340, to:1254, format:'5 moves × 40 s per round', rounds:3, roundEnds:['11:02','16:00','20:54'],
+    moves:['Beast crawl','Crab leg reach','Side kick-through','Squat crossover · left','Squat crossover · right'] },
+  'primal-cooldown': { vid:'primal', name:'Primal Cool-down', from:1254, to:1629, format:'8 stretches × 30 s',
+    moves:['Seated side bend · L','Seated side bend · R','Straddle fold','Half-kneeling opener · L','Half-kneeling opener · R','Standing quad stretch · L','Standing quad stretch · R','Standing forward fold'] },
+  'upper-warmup':    { vid:'upper', name:'Upper-Body Warm-up', from:20, to:420, format:'5 moves × 30 s · 2 rounds',
+    moves:['Beast leg reach','Hollow body','Prone swimmers','Planche lean','Upward dog'] },
+  'upper-workout':   { vid:'upper', name:'Upper-Body Workout', from:420, to:1070, format:'12 moves × 40 s',
+    moves:['Beast push-up','Side kick-through','Superman','Prone Y-raise','Spiderman push-up','Lizard crawl','Forearm plank + prone extension','Prone swimmers','Pike push-up','Crab reach','Reverse snow angel','Push-ups'] },
 };
 
 const ZONE2 = '<b>Zone 2:</b> steady, conversational effort — you could still speak in full sentences.';
 const DAYS = [
-  { id:'d1', label:'Day 1', weekday:'Mon', title:'Squat + Horizontal Push/Pull',
+  { id:'d1', group:'gym', label:'Day 1', weekday:'Mon', title:'Squat + Horizontal Push/Pull',
     warmup:'5–8 minutes easy bike or incline walk + warm-up sets for the first major lifts.',
     items:[
       { slot:'d1-1', num:'1', moves:['back-squat','hack-squat'], sets:3, min:6, max:8 },
@@ -463,7 +548,7 @@ const DAYS = [
       { slot:'d1-6', num:'6', moves:['cable-crunch'], sets:2, min:10, max:15 },
     ],
     cardio:{ slot:'d1-c', kind:'z2tread', name:'Incline Treadmill', target:'20 min · Zone 2', guide:ZONE2 } },
-  { id:'d2', label:'Day 2', weekday:'Wed', title:'Hinge + Vertical Push/Pull',
+  { id:'d2', group:'gym', label:'Day 2', weekday:'Wed', title:'Hinge + Vertical Push/Pull',
     warmup:'5–8 minutes easy cardio + appropriate ramp-up sets.',
     items:[
       { slot:'d2-1', num:'1', moves:['deadlift','trap-bar-deadlift'], sets:3, min:5, max:6 },
@@ -475,7 +560,7 @@ const DAYS = [
     ],
     cardio:{ slot:'d2-c', kind:'4x4', name:'4×4 Intervals', target:'4 rounds · 4 min hard / 3 min easy',
       guide:'<b>Hard:</b> a strong, sustained effort you can hold for the full 4 minutes — breathing heavily, controlled, not all-out. <b>Easy:</b> keep moving gently to recover. Bike or elliptical preferred.' } },
-  { id:'d3', label:'Day 3', weekday:'Fri', title:'Legs + Upper-Body Volume',
+  { id:'d3', group:'gym', label:'Day 3', weekday:'Fri', title:'Legs + Upper-Body Volume',
     warmup:'5–8 minutes easy cardio + appropriate warm-up sets.',
     items:[
       { slot:'d3-1', num:'1', moves:['leg-press'], sets:3, min:8, max:12 },
@@ -488,9 +573,40 @@ const DAYS = [
       { slot:'d3-7', num:'7', moves:['farmer-carry'], sets:2, min:30, max:45, kind:'timed' },
     ],
     cardio:{ slot:'d3-c', kind:'z2mix', name:'Incline Walk or Bike', target:'20–25 min · Zone 2', guide:ZONE2 } },
+
+  /* ---- Home days: placed around the gym days (see "why"). ---- */
+  { id:'h1', group:'home', label:'Activate', weekday:'Tue', title:'Activate · open up, stay fresh', minutes:'≈25 min', effort:'Easy–moderate · 5–6/10',
+    why:'Between Monday\'s squats and RDLs and Wednesday\'s deadlift + 4×4, the heaviest day. Restore hip and spine range, wake up the back line, and leave Wednesday untouched.',
+    items:[
+      { slot:'h1-1', num:'1', kind:'flow', part:'primal-warmup' },
+      { slot:'h1-2', num:'2', kind:'flow', part:'primal-main', rounds:2, note:'Rounds 1–2 only: stop at 16:00 and skip ahead to the cool-down. Smooth, unhurried pace.' },
+      { slot:'h1-3', num:'3', kind:'hold', moves:['horse-stance'], sets:2, min:30, max:30, rest:60, priming:true, note:'Priming dose: 2 sets at a comfortable depth. The full dose is on Saturday.' },
+      { slot:'h1-4', num:'4', kind:'hold', moves:['superman-hold'], sets:2, min:15, max:20, rest:90, priming:true, note:'Priming dose: 2 sets, a firm squeeze, not maximal.' },
+      { slot:'h1-5', num:'5', kind:'flow', part:'primal-cooldown' },
+    ] },
+  { id:'h2', group:'home', label:'Restore', weekday:'Thu', title:'Restore · recover and reset', minutes:'≈15 min', effort:'Easy · 3–4/10',
+    why:'The day after your hardest session and the day before Friday\'s volume. Gentle range of motion only — nothing that costs recovery.',
+    items:[
+      { slot:'h2-1', num:'1', kind:'flow', part:'upper-warmup', note:'Slow and easy. One round is plenty if you feel beat up.' },
+      { slot:'h2-2', num:'2', kind:'flow', part:'primal-cooldown' },
+    ] },
+  { id:'h3', group:'home', label:'Build', weekday:'Sat', title:'Build · home strength session', minutes:'≈35 min', effort:'Moderate–hard · 7–8/10',
+    why:'The most recovery runway of the week — Sunday is rest before Monday. The max-effort holds and the push-up volume live here, still stopping just short of failure.',
+    swap:'Run-down after Friday or slept badly? Do the Restore session instead. That counts.',
+    items:[
+      { slot:'h3-1', num:'1', kind:'flow', part:'upper-warmup' },
+      { slot:'h3-2', num:'2A', kind:'hold', moves:['iso-push'], sets:3, min:8, max:10, rest:60, circuit:true },
+      { slot:'h3-3', num:'2B', kind:'hold', moves:['pullup-hold','pullup-hold-assisted'], sets:3, min:10, max:15, rest:90, circuit:true },
+      { slot:'h3-4', num:'2C', kind:'hold', moves:['handstand-couch','handstand-wall'], sets:3, min:10, max:15, rest:120, circuit:true },
+      { slot:'h3-5', num:'2D', kind:'hold', moves:['horse-stance'], sets:3, min:30, max:45, rest:60, circuit:true },
+      { slot:'h3-6', num:'3', kind:'flow', part:'upper-workout', note:'Stop each 40 s interval about 2 reps before failure — quality over count.' },
+      { slot:'h3-7', num:'4', kind:'flow', part:'primal-cooldown' },
+    ] },
 ];
 const DAY_BY_ID = {}; const ITEM_BY_SLOT = {};
-DAYS.forEach(d => { DAY_BY_ID[d.id] = d; d.items.forEach(it => { it.kind = it.kind || 'reps'; it.dayId = d.id; ITEM_BY_SLOT[it.slot] = it; }); d.cardio.dayId = d.id; });
+DAYS.forEach(d => { DAY_BY_ID[d.id] = d; d.items.forEach(it => { it.kind = it.kind || 'reps'; it.dayId = d.id; ITEM_BY_SLOT[it.slot] = it; }); if (d.cardio) d.cardio.dayId = d.id; });
+const WEEK = [['Mon','Gym 1','d1'],['Tue','Activate','h1'],['Wed','Gym 2','d2'],['Thu','Restore','h2'],['Fri','Gym 3','d3'],['Sat','Build','h3'],['Sun','Rest',null]];
+const CIRCUIT_REST = 30;
 const IVL = { rounds:4, hard:240, easy:180 };
 const REST_OPTS = [[60,'60s'],[90,'90s'],[120,'2 min'],[180,'3 min']];
 
@@ -500,7 +616,7 @@ const REST_OPTS = [[60,'60s'],[90,'90s'],[120,'2 min'],[180,'3 min']];
 const APP_ID = 'gym-companion-90', SCHEMA = 1;
 const LS = { history:'gym90.history', active:'gym90.active', settings:'gym90.settings', ui:'gym90.ui', rest:'gym90.rest' };
 const DEFAULT_SETTINGS = { programStart:null, sound:true, wakeLock:true, autoRest:true, restSec:90, theme:'dark', lastExport:null };
-const defaultUI = () => ({ view:'day', dayId:null, open:{}, histTab:'sessions', previewMove:{}, cues:{}, justSaved:null });
+const defaultUI = () => ({ view:'day', dayId:null, open:{}, histTab:'sessions', previewMove:{}, cues:{}, lastDay:{}, justSaved:null });
 let storageOK = true;
 function lsGet(k, fb){ try { const v = localStorage.getItem(k); return v == null ? fb : JSON.parse(v); } catch(e){ if (e && e.name !== 'SyntaxError') storageOK = false; return fb; } }
 function lsSet(k, v){
@@ -548,15 +664,19 @@ function parseNum(v, int){
   if (!isFinite(n) || n < 0) return null;
   return Math.min(n, 9999);
 }
-const valKey = it => it.kind === 'timed' ? 'seconds' : 'reps';
+const valKey = it => it.kind === 'timed' || it.kind === 'hold' ? 'seconds' : 'reps';
 function targetText(it){
+  if (it.kind === 'flow'){ const P = FLOW_PARTS[it.part]; return P.format + (it.rounds ? ` · ${it.rounds} of ${P.rounds} rounds` : P.rounds ? ` · ${P.rounds} rounds` : ''); }
   if (it.kind === 'perleg') return `${it.sets} × ${it.max} each leg`;
-  if (it.kind === 'timed') return `${it.sets} × ${it.min}–${it.max} sec`;
+  if (it.kind === 'timed' || it.kind === 'hold') return it.min === it.max ? `${it.sets} × ${it.max} sec` : `${it.sets} × ${it.min}–${it.max} sec`;
   return `${it.sets} × ${it.min}–${it.max}`;
 }
+const isHome = dayId => !!(DAY_BY_ID[dayId] && DAY_BY_ID[dayId].group === 'home');
+const sessWord = dayId => isHome(dayId) ? 'session' : 'workout';
+function mmss(sec){ return Math.floor(sec / 60) + ':' + pad(sec % 60); }
 function wLabel(M){ return M.assist ? 'Assist · lb' : M.hand ? 'Per hand · lb' : M.each ? 'Each DB · lb' : 'Weight · lb'; }
 function wText(M, w){ const n = fmtNum(w); return M.assist ? `Assist ${n} lb` : (M.each || M.hand) ? `${n} lb ea` : `${n} lb`; }
-function unitSuffix(it){ return it.kind === 'timed' ? ' sec' : it.kind === 'perleg' ? ' /leg' : ''; }
+function unitSuffix(it){ return it.kind === 'timed' || it.kind === 'hold' ? ' sec' : it.kind === 'perleg' ? ' /leg' : ''; }
 function rirText(v){ return v == null ? '–' : v >= 4 ? '4+' : String(v); }
 const ICON = {
   check:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
@@ -583,6 +703,14 @@ function findPrevCardio(kind, before){
   for (const s of sortedHistory()){ if (before && sortKey(s) >= before) continue; if (s.cardio && s.cardio.kind === kind && cardioLogged(s.cardio)) return { session:s, cardio:s.cardio }; }
   return null;
 }
+function findPrevFlow(part, before){
+  for (const s of sortedHistory()){
+    if (before && sortKey(s) >= before) continue;
+    for (const e of Object.values(s.entries || {})) if (e && e.kind === 'flow' && e.part === part && e.done) return { session:s, entry:e };
+  }
+  return null;
+}
+function flowSummary(e){ return e && e.done ? 'Done' + (e.rounds ? ` · ${e.rounds} round${e.rounds > 1 ? 's' : ''}` : '') : 'Not done'; }
 function rangeDone(it, sets){
   const k = valKey(it);
   if (!Array.isArray(sets) || sets.length < it.sets) return false;
@@ -600,6 +728,7 @@ function rirLine(sets){ const r = (sets || []).filter(s => s && (s.reps != null)
 function partsHTML(it, M, rows){
   const k = valKey(it);
   const ws = rows.filter(s => s.weight != null).map(s => s.weight); const same = ws.every(w => w === ws[0]);
+  if (!ws.length) return `<span class="pb-r">${esc(rows.map(s => s[k] != null ? fmtNum(s[k]) : '–').join(' / ') + unitSuffix(it))}</span>`;
   if (same) return `<span class="pb-w">${esc(ws.length ? wText(M, ws[0]) : '—')}</span><span class="pb-r">${esc(rows.map(s => s[k] != null ? fmtNum(s[k]) : '–').join(' / ') + unitSuffix(it))}</span>`;
   return `<span class="pb-m">${esc(rows.map(s => (s.weight != null ? fmtNum(s.weight) + '×' : '') + (s[k] != null ? fmtNum(s[k]) : '–')).join(' · ') + unitSuffix(it))}</span>`;
 }
@@ -629,9 +758,12 @@ function cardioSummary(c){
 }
 
 /* ---------- session model ---------- */
-function blankSets(it){ return Array.from({ length:it.sets }, () => it.kind === 'timed' ? { weight:null, seconds:null, done:false } : { weight:null, reps:null, rir:null, done:false }); }
+function blankSets(it){ return Array.from({ length:it.sets || 0 }, () => it.kind === 'hold' ? { seconds:null, done:false } : it.kind === 'timed' ? { weight:null, seconds:null, done:false } : { weight:null, reps:null, rir:null, done:false }); }
 function defaultMove(it){ const m = S.ui.previewMove[it.slot] || lastMoveForSlot(it.slot); return it.moves.includes(m) ? m : it.moves[0]; }
-function newEntry(it){ return { move:defaultMove(it), kind:it.kind, sets:blankSets(it), notes:'', done:false }; }
+function newEntry(it){
+  if (it.kind === 'flow') return { kind:'flow', part:it.part, rounds:null, notes:'', done:false };
+  return { move:defaultMove(it), kind:it.kind, sets:blankSets(it), notes:'', done:false };
+}
 function newCardio(day){
   const c = day.cardio; const last = findPrevCardio(c.kind);
   const e = { kind:c.kind, done:false, duration:null, notes:'' };
@@ -645,24 +777,38 @@ function normalizeSession(s){
   s.entries = s.entries || {};
   day.items.forEach(it => {
     const e = s.entries[it.slot];
+    if (it.kind === 'flow'){ if (!e || e.kind !== 'flow') s.entries[it.slot] = newEntry(it); return; }
     if (!e || !Array.isArray(e.sets)) { s.entries[it.slot] = newEntry(it); return; }
     if (!it.moves.includes(e.move)) e.move = it.moves[0];
     while (e.sets.length < it.sets) e.sets.push(blankSets(it)[0]);
   });
-  if (!s.cardio || s.cardio.kind !== day.cardio.kind) s.cardio = newCardio(day);
-  if (s.cardio.kind === '4x4' && !Array.isArray(s.cardio.hr)) s.cardio.hr = [null, null, null, null];
+  if (!day.cardio) s.cardio = null;
+  else {
+    if (!s.cardio || s.cardio.kind !== day.cardio.kind) s.cardio = newCardio(day);
+    if (s.cardio.kind === '4x4' && !Array.isArray(s.cardio.hr)) s.cardio.hr = [null, null, null, null];
+  }
   if (s.notes == null) s.notes = '';
   return s;
 }
 function newSession(dayId){
   const day = DAY_BY_ID[dayId]; const now = Date.now();
-  const s = { id:'s' + now.toString(36) + Math.random().toString(36).slice(2, 6), dayId, date:isoDate(), startedAt:now, endedAt:null, durationSec:null, entries:{}, cardio:newCardio(day), notes:'' };
+  const s = { id:'s' + now.toString(36) + Math.random().toString(36).slice(2, 6), dayId, date:isoDate(), startedAt:now, endedAt:null, durationSec:null, entries:{}, cardio:day.cardio ? newCardio(day) : null, notes:'' };
   day.items.forEach(it => s.entries[it.slot] = newEntry(it));
   return s;
 }
-function progressOf(s){ const day = DAY_BY_ID[s.dayId]; const total = day.items.length + 1; const done = day.items.filter(it => s.entries[it.slot] && s.entries[it.slot].done).length + (s.cardio && s.cardio.done ? 1 : 0); return { done, total }; }
-function nextSlot(s){ const day = DAY_BY_ID[s.dayId]; const it = day.items.find(it => !(s.entries[it.slot] && s.entries[it.slot].done)); if (it) return it.slot; return s.cardio && s.cardio.done ? null : day.cardio.slot; }
-function itemName(slot){ const it = ITEM_BY_SLOT[slot]; if (it) { const e = S.active && S.active.entries[slot]; return MOVES[(e && e.move) || it.moves[0]].name; } const d = DAYS.find(d => d.cardio.slot === slot); return d ? d.cardio.name : ''; }
+function totalOf(day){ return day.items.length + (day.cardio ? 1 : 0); }
+function progressOf(s){ const day = DAY_BY_ID[s.dayId]; const done = day.items.filter(it => s.entries[it.slot] && s.entries[it.slot].done).length + (day.cardio && s.cardio && s.cardio.done ? 1 : 0); return { done, total:totalOf(day) }; }
+function nextSlot(s){ const day = DAY_BY_ID[s.dayId]; const it = day.items.find(it => !(s.entries[it.slot] && s.entries[it.slot].done)); if (it) return it.slot; return !day.cardio || (s.cardio && s.cardio.done) ? null : day.cardio.slot; }
+function itemName(slot){
+  const it = ITEM_BY_SLOT[slot];
+  if (it){ if (it.kind === 'flow') return FLOW_PARTS[it.part].name; const e = S.active && S.active.entries[slot]; return MOVES[(e && e.move) || it.moves[0]].name; }
+  const d = DAYS.find(d => d.cardio && d.cardio.slot === slot); return d ? d.cardio.name : '';
+}
+function circuitNext(slot){
+  const it = ITEM_BY_SLOT[slot]; const circ = DAY_BY_ID[it.dayId].items.filter(x => x.circuit); const idx = circ.findIndex(x => x.slot === slot);
+  for (let k = 1; k <= circ.length; k++){ const c = circ[(idx + k) % circ.length]; const e = S.active.entries[c.slot]; if (e && !e.done && e.sets.some(x => !x.done)) return c.slot; }
+  return null;
+}
 function currentKey(){ return S.active ? sortKey(S.active) : null; }
 
 /* =====================================================================
@@ -708,7 +854,7 @@ function chime(kind){
   if (S.settings.sound && actx){
     try {
       if (actx.state === 'suspended') actx.resume();
-      const notes = kind === 'go' ? [660, 880, 1175] : kind === 'easy' ? [880, 660] : [880, 1320];
+      const notes = kind === 'go' ? [660, 880, 1175] : kind === 'easy' ? [880, 660] : kind === 'tick' ? [1046] : kind === 'min' ? [988] : [880, 1320];
       const t0 = actx.currentTime + 0.03;
       notes.forEach((f, i) => {
         const o = actx.createOscillator(), g = actx.createGain(); const st = t0 + i * 0.2;
@@ -718,7 +864,7 @@ function chime(kind){
       });
     } catch(e){}
   }
-  try { if (navigator.vibrate) navigator.vibrate([220, 120, 220]); } catch(e){}
+  try { if (navigator.vibrate && (!navigator.userActivation || navigator.userActivation.hasBeenActive)) navigator.vibrate(kind === 'tick' ? 60 : [220, 120, 220]); } catch(e){}
 }
 let wakeLock = null;
 async function syncWakeLock(){
@@ -767,18 +913,16 @@ function renderAll(){ applyTheme(); renderHeader(); if (S.ui.view === 'history')
 
 function renderHeader(){
   const a = S.active; const date = a ? a.date : isoDate();
-  $('#hdrWhen').innerHTML = `<b>${esc(fmtDay(date))}</b> · Week ${weekOf(date)}`;
-  const prog = $('#hdrProg'), tm = $('#hdrTimer');
-  if (a){ const p = progressOf(a); prog.textContent = `${p.done}/${p.total}`; prog.hidden = false; prog.title = `${DAY_BY_ID[a.dayId].label}: ${p.done} of ${p.total} done`; }
-  else prog.hidden = true;
+  $('#hdrWhen').innerHTML = `<b>${esc(fmtShort(date))}</b> · Wk ${weekOf(date)}`;
+  const tm = $('#hdrTimer'); const group = (DAY_BY_ID[S.ui.dayId] || DAYS[0]).group;
+  document.querySelectorAll('.mode button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === group)));
+  $('#tabs').innerHTML = DAYS.filter(d => d.group === group).map(d => {
+    const live = !!(a && a.dayId === d.id); const p = live ? progressOf(a) : null; const lab = d.label.toUpperCase();
+    return `<button class="tab" role="tab" data-act="view-day" data-day="${d.id}" aria-selected="${S.ui.view === 'day' && S.ui.dayId === d.id}"><b class="${d.group === 'home' ? 'long' : ''}">${esc(lab)}</b><small>${live ? `${p.done}/${p.total}` : d.weekday}</small>${live ? '<i class="live" aria-label="in progress"></i>' : ''}</button>`;
+  }).join('');
   if (a && a.editing){ tm.hidden = false; tm.className = 'timer editing'; tm.textContent = 'Editing'; }
   else if (a){ tm.hidden = false; tm.className = 'timer'; tm.textContent = fmtClock((Date.now() - a.startedAt) / 1000); }
   else tm.hidden = true;
-  document.querySelectorAll('.tab').forEach(t => {
-    const id = t.dataset.day; t.setAttribute('aria-selected', String(S.ui.view === 'day' && S.ui.dayId === id));
-    const live = t.querySelector('.live'); const isLive = !!(a && a.dayId === id);
-    if (isLive && !live) t.insertAdjacentHTML('beforeend', '<i class="live" aria-label="in progress"></i>'); else if (!isLive && live) live.remove();
-  });
   $('#btnHistory').setAttribute('aria-pressed', String(S.ui.view === 'history'));
   requestAnimationFrame(() => document.documentElement.style.setProperty('--hdr', $('#top').offsetHeight + 'px'));
 }
@@ -790,26 +934,43 @@ function dayCtx(day){
 
 function renderDay(){
   const day = DAY_BY_ID[S.ui.dayId]; const ctx = dayCtx(day); const a = S.active;
-  const p = ctx.isActive ? progressOf(a) : { done:0, total:day.items.length + 1 };
+  const p = ctx.isActive ? progressOf(a) : { done:0, total:totalOf(day) };
   let h = '';
   if (!storageOK) h += `<p class="storage-warn">Browser storage is unavailable (private browsing?). Workouts on this page will not be kept after closing.</p>`;
-  if (ctx.readOnly) h += `<div class="banner"><span><b>${esc(DAY_BY_ID[a.dayId].label)}</b> workout in progress.</span><span class="btns"><button class="btn-secondary" data-act="view-day" data-day="${a.dayId}">Go to ${esc(DAY_BY_ID[a.dayId].label)}</button></span></div>`;
+  if (!a && day.group === 'home' && new Date().getDay() === 0) h += `<div class="banner ok"><span><b>Sunday is rest.</b> Recovery is part of the plan. Tomorrow: Gym Day 1.</span></div>`;
+  if (ctx.readOnly) h += `<div class="banner"><span><b>${esc(DAY_BY_ID[a.dayId].label)}</b> ${sessWord(a.dayId)} in progress.</span><span class="btns"><button class="btn-secondary" data-act="view-day" data-day="${a.dayId}">Go to ${esc(DAY_BY_ID[a.dayId].label)}</button></span></div>`;
   if (!a && S.ui.justSaved){
     const s = S.history.find(x => x.id === S.ui.justSaved);
     if (s){ const sp = progressOf(normalizeSession(s)); h += `<div class="banner ok"><span>Saved · ${esc(DAY_BY_ID[s.dayId].label)} · ${fmtDur(s.durationSec)} · ${sp.done}/${sp.total}</span><span class="btns"><button class="btn-secondary" data-act="session" data-id="${s.id}">View</button><button class="icon-btn" data-act="dismiss-saved" aria-label="Dismiss">${ICON.close}</button></span></div>`; }
   }
   const lastDay = !a && sortedHistory().find(s => s.dayId === day.id);
-  h += `<section class="intro">
-    <div class="intro-row"><h1>${esc(day.title)}</h1><span class="prog">${p.done}/${p.total}</span></div>
-    <div class="progbar" role="progressbar" aria-valuemin="0" aria-valuemax="${p.total}" aria-valuenow="${p.done}" aria-label="Workout progress"><i style="width:${Math.round(p.done / p.total * 100)}%"></i></div>
-    <p class="note">Quality reps. Leave 2–3 clean reps available during the first two weeks.</p>
-    <p class="warm"><b>Warm-up</b> · ${esc(day.warmup)}</p>
-    ${lastDay ? `<p class="lastline">Last ${esc(day.label)}: ${esc(fmtDay(lastDay.date))} · ${fmtDur(lastDay.durationSec)}</p>` : ''}
-  </section>`;
-  h += day.items.map(it => renderCard(it, ctx)).join('');
-  h += renderCardio(day, ctx);
+  const today = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date().getDay()];
+  const head = `<div class="intro-row"><h1>${esc(day.title)}</h1><span class="prog">${p.done}/${p.total}</span></div>
+    <div class="progbar" role="progressbar" aria-valuemin="0" aria-valuemax="${p.total}" aria-valuenow="${p.done}" aria-label="Progress"><i style="width:${Math.round(p.done / p.total * 100)}%"></i></div>`;
+  const last = lastDay ? `<p class="lastline">Last ${esc(day.label)}: ${esc(fmtDay(lastDay.date))} · ${fmtDur(lastDay.durationSec)}</p>` : '';
+  if (day.group === 'home'){
+    h += `<section class="intro">${head}
+      <div class="week" aria-label="Weekly plan">${WEEK.map(([d, l, id]) => `<span class="wk ${d === today ? 'today' : ''} ${id && id[0] === 'h' ? 'home' : ''}"><b>${d}</b><small>${l}</small></span>`).join('')}</div>
+      <p class="warm"><b>${esc(day.weekday)}</b> · ${esc(day.minutes)} · ${esc(day.effort)}</p>
+      <p class="note">${esc(day.why)}</p>
+      ${day.swap ? `<p class="warm">${esc(day.swap)}</p>` : ''}${last}
+    </section>`;
+  } else {
+    h += `<section class="intro">${head}
+      <p class="note">Quality reps. Leave 2–3 clean reps available during the first two weeks.</p>
+      <p class="warm"><b>Warm-up</b> · ${esc(day.warmup)}</p>${last}
+    </section>`;
+  }
+  let circuitShown = false;
+  h += day.items.map(it => {
+    let pre = '';
+    if (it.circuit && !circuitShown){ circuitShown = true; const n = day.items.filter(x => x.circuit).length;
+      pre = `<p class="circuit-note"><b>Isometric circuit · 3 rounds.</b> One set of each hold (${esc(day.items.filter(x => x.circuit).map(x => x.num).join(' → '))}), then repeat. Each hold gets its full rest while you do the other ${n - 1}. Done fresh, before the push-up workout.</p>`; }
+    return pre + (it.kind === 'flow' ? renderFlowCard(it, ctx) : renderCard(it, ctx));
+  }).join('');
+  if (day.cardio) h += renderCardio(day, ctx);
   if (ctx.isActive) h += renderSessionFooter(a);
-  else if (!a) h += `<p class="hint">Logging anything starts the workout timer automatically.</p>`;
+  else if (!a) h += `<p class="hint">Logging anything starts the ${sessWord(day.id)} timer automatically.</p>`;
   $('#main').innerHTML = h;
 }
 
@@ -848,8 +1009,9 @@ function renderCardBody(it, ctx, { e, move, M, prev, sets, done }){
   if (it.moves.length > 1){
     b += `<div class="seg" role="group" aria-label="Variation performed">${it.moves.map(m => `<button data-act="variant" data-slot="${slot}" data-move="${m}" aria-pressed="${m === move}">${esc(MOVES[m].name)}</button>`).join('')}</div>`;
   }
-  b += `<a class="demo" href="https://www.youtube.com/watch?v=${M.video.id}" target="_blank" rel="noopener noreferrer">
-      <span class="play">${ICON.play}</span><span><b>Watch technique demo</b><small>${esc(M.video.ch)} · ${esc(M.video.len)}</small></span><span class="ext">${ICON.ext}</span></a>`;
+  if (it.note) b += `<p class="guide muted">${esc(it.note)}</p>`;
+  b += `<a class="demo" href="https://www.youtube.com/watch?v=${M.video.id}${M.video.t ? '&t=' + M.video.t + 's' : ''}" target="_blank" rel="noopener noreferrer">
+      <span class="play">${ICON.play}</span><span><b>Watch technique demo</b><small>${esc(M.video.ch)} · ${M.video.t ? 'from ' + mmss(M.video.t) : esc(M.video.len)}</small></span><span class="ext">${ICON.ext}</span></a>`;
   const cuesOpen = S.ui.cues && S.ui.cues[move] != null ? S.ui.cues[move] : !prev;
   b += `<div class="tech"><button class="tech-toggle" data-act="cues" data-move="${move}" data-open="${cuesOpen ? 1 : 0}" aria-expanded="${cuesOpen}"><span class="sec-label">Technique · ${M.cues.length} cues</span><span class="tt">${cuesOpen ? 'Hide' : 'Show'}</span></button>${cuesOpen ? `<ul>${M.cues.map(([k, v]) => `<li><b>${esc(k)}</b>${esc(v)}</li>`).join('')}</ul>` : ''}</div>`;
   const prevRir = prev ? rirLine(prev.entry.sets) : '';
@@ -857,9 +1019,9 @@ function renderCardBody(it, ctx, { e, move, M, prev, sets, done }){
       <div class="pb-col"><div class="pb-k">Previous${prev ? ' · ' + esc(fmtShort(prev.session.date)) : ''}</div>
         <div class="pb-v">${prev ? prevBlock(it, M, prev.entry.sets) : '<span class="muted">First session</span>'}</div>${prevRir ? `<div class="pb-sub">${esc(prevRir)}</div>` : ''}</div>
       <div class="pb-col"><div class="pb-k">Today</div><div class="pb-v" id="today-${slot}">${todayLine(it, M, sets)}</div><div class="pb-sub">Target ${esc(targetText(it))}</div></div>
-      ${prev && rangeDone(it, prev.entry.sets) ? `<div class="pb-hint">Last session completed the range — ${M.assist ? 'slightly less assistance' : 'a small weight increase'} may fit today.</div>` : ''}
-      ${ctx.week <= 2 ? '<p class="early">Establish clean starting loads. Finish most sets with approximately 2–3 reps in reserve.</p>' : ''}
-      ${!ctx.readOnly && prev && sets.some(s => !s.done) ? `<button class="pb-copy" data-act="copyprev" data-slot="${slot}">Copy previous weight</button>` : ''}
+      ${prev && !it.priming && rangeDone(it, prev.entry.sets) ? `<div class="pb-hint">${it.kind === 'hold' ? `Last session hit the top of the range — ${esc(M.next)} today.` : `Last session completed the range — ${M.assist ? 'slightly less assistance' : 'a small weight increase'} may fit today.`}</div>` : ''}
+      ${ctx.week <= 2 ? (it.kind === 'hold' ? '<p class="early">Learn the positions: start with the easier version and the low end of each range.</p>' : '<p class="early">Establish clean starting loads. Finish most sets with approximately 2–3 reps in reserve.</p>') : ''}
+      ${!ctx.readOnly && it.kind !== 'hold' && prev && sets.some(s => !s.done) ? `<button class="pb-copy" data-act="copyprev" data-slot="${slot}">Copy previous weight</button>` : ''}
     </div>`;
   if (ctx.readOnly){
     b += `<p class="ro">View only — finish ${esc(DAY_BY_ID[S.active.dayId].label)} before logging this day.</p>`;
@@ -871,11 +1033,11 @@ function renderCardBody(it, ctx, { e, move, M, prev, sets, done }){
     b += `<div id="sugg-${slot}">${suggestion(it, M, sets)}</div>`;
     if (done){
       const nx = ctx.session && nextSlot(ctx.session);
-      b += `<div class="row2">${nx ? `<button class="btn-primary" style="flex:1" data-act="gonext" data-slot="${nx}">Next: ${esc(itemName(nx))} →</button>` : `<button class="btn-primary" style="flex:1" data-act="finish">Finish workout</button>`}<button class="btn-text" data-act="exundone" data-slot="${slot}">Reopen</button></div>`;
+      b += `<div class="row2">${nx ? `<button class="btn-primary" style="flex:1" data-act="gonext" data-slot="${nx}">Next: ${esc(itemName(nx))} →</button>` : `<button class="btn-primary" style="flex:1" data-act="finish">Finish ${sessWord(it.dayId)}</button>`}<button class="btn-text" data-act="exundone" data-slot="${slot}">Reopen</button></div>`;
     } else {
       b += `<button class="btn-secondary block" data-act="exdone" data-slot="${slot}">${ICON.check} Complete exercise</button>`;
     }
-    b += `<div><label class="fld-label" for="note-${slot}">Notes</label><textarea id="note-${slot}" data-nf="${slot}" rows="2" placeholder="Seat setting, grip, how it felt…">${esc(e ? e.notes : '')}</textarea>${prev && prev.entry.notes ? `<p class="lastnote">Last note: ${esc(prev.entry.notes)}</p>` : ''}</div>`;
+    b += `<div><label class="fld-label" for="note-${slot}">Notes</label><textarea id="note-${slot}" data-nf="${slot}" rows="2" placeholder="${it.kind === 'hold' ? 'Depth, version used, how it felt…' : 'Seat setting, grip, how it felt…'}">${esc(e ? e.notes : '')}</textarea>${prev && prev.entry.notes ? `<p class="lastnote">Last note: ${esc(prev.entry.notes)}</p>` : ''}</div>`;
   }
   b += `<button class="link-btn" data-act="exhist" data-move="${move}" data-slot="${slot}">${esc(M.name)} history →</button>`;
   return b + '</div>';
@@ -895,16 +1057,26 @@ function renderSet(it, M, s, i, prev, isCur){
   if (!isCur && !s.done){
     const planned = s.weight != null || s[k] != null;
     return `<button class="set-up" data-act="openset" data-slot="${slot}" data-i="${i}" aria-label="Set ${i + 1}, tap to log">
-      <span class="set-n">Set ${i + 1}</span><span class="set-sum">${planned ? esc((s.weight != null ? wText(M, s.weight) : '') + (s[k] != null ? ' × ' + fmtNum(s[k]) : '')) : 'Up next'}</span><span class="set-tgt">${esc(it.min === it.max ? String(it.max) : it.min + '–' + it.max)}${unitSuffix(it)}</span></button>`;
+      <span class="set-n">Set ${i + 1}</span><span class="set-sum">${planned ? esc([s.weight != null ? wText(M, s.weight) : '', s[k] != null ? fmtNum(s[k]) + unitSuffix(it) : ''].filter(Boolean).join(' × ')) : 'Up next'}</span><span class="set-tgt">${esc(it.min === it.max ? String(it.max) : it.min + '–' + it.max)}${unitSuffix(it)}</span></button>`;
   }
   if (!isCur){
     return `<button class="set-done" data-act="openset" data-slot="${slot}" data-i="${i}" aria-label="Set ${i + 1} done, tap to edit">
       <span class="chk">${ICON.check}</span><span class="set-n">Set ${i + 1}</span>
-      <span class="set-sum">${s.weight != null ? esc(fmtNum(s.weight)) + ' × ' : ''}${esc(fmtNum(s[k]))}${it.kind === 'timed' ? ' sec' : it.kind === 'perleg' ? ' /leg' : ''}</span>
+      <span class="set-sum">${s.weight != null ? esc(fmtNum(s.weight)) + ' × ' : ''}${esc(fmtNum(s[k]))}${unitSuffix(it)}</span>
       ${s.rir != null ? `<span class="set-rir">RIR ${rirText(s.rir)}</span>` : ''}</button>`;
   }
-  const pw = prevWeightFor(prev, i);
   const range = it.min === it.max ? String(it.max) : `${it.min}–${it.max}`;
+  if (it.kind === 'hold'){
+    return `<div class="set ${s.done ? 'is-done' : ''} current">
+      <div class="set-title"><span>Set ${i + 1}${it.circuit ? ' <small>· round ' + (i + 1) + '</small>' : ''}</span>${s.done ? `<button class="btn-text set-close" data-act="closeset" data-slot="${slot}">Close</button>` : ''}</div>
+      <div class="steppers one">${stepper(slot, i, 'seconds', `Seconds held · target ${range}`, s.seconds, range, 5, true)}</div>
+      <div class="set-foot hold-foot">
+        <button class="btn-secondary" data-act="hold-start" data-slot="${slot}" data-i="${i}" style="min-height:48px">${ICON.play} Time this hold</button>
+        <button class="btn-done ${s.done ? 'on' : ''}" data-act="${s.done ? 'uncomplete' : 'complete'}" data-slot="${slot}" data-i="${i}" aria-label="${s.done ? 'Mark set ' + (i + 1) + ' not done' : 'Complete set ' + (i + 1)}">${s.done ? ICON.check + ' Done' : 'Done'}</button>
+      </div>
+    </div>`;
+  }
+  const pw = prevWeightFor(prev, i);
   const repsLabel = k === 'seconds' ? 'Seconds' : it.kind === 'perleg' ? 'Reps per leg' : 'Reps';
   const rir = it.kind === 'timed' ? '<span></span>' :
     `<div><span class="rir-l">RIR <em>optional</em></span><div class="chips">${[0, 1, 2, 3, 4].map(v => `<button class="chip" data-act="rir" data-slot="${slot}" data-i="${i}" data-v="${v}" aria-pressed="${s.rir === v}" aria-label="Reps in reserve ${v === 4 ? '4 or more' : v}, set ${i + 1}">${v === 4 ? '4+' : v}</button>`).join('')}</div></div>`;
@@ -920,10 +1092,44 @@ function renderSet(it, M, s, i, prev, isCur){
   </div>`;
 }
 function suggestion(it, M, sets){
-  if (!rangeDone(it, sets)) return '';
+  if (it.priming || !rangeDone(it, sets)) return '';
+  if (it.kind === 'hold') return `<div class="suggest" role="status">Range completed — next time, ${esc(M.next)}.<small>Only if the position stayed clean. Nothing changes automatically.</small></div>`;
   return `<div class="suggest" role="status">Range completed — consider ${M.assist ? 'slightly less assistance' : 'a small weight increase'} next session.<small>Only if every rep was clean. This is a suggestion; nothing changes automatically.</small></div>`;
 }
 
+function renderFlowCard(it, ctx){
+  const P = FLOW_PARTS[it.part], V = FLOW_VIDEOS[P.vid], slot = it.slot;
+  const e = ctx.session ? ctx.session.entries[slot] : null; const done = !!(e && e.done);
+  const open = S.ui.open[ctx.day.id] === slot; const isNext = ctx.next === slot;
+  const prev = findPrevFlow(it.part, ctx.before);
+  const cls = ['card', open && 'open', done && 'done', isNext && 'next'].filter(Boolean).join(' ');
+  let h = `<section class="${cls}" id="card-${slot}">
+    <button class="card-head" data-act="toggle" data-slot="${slot}" aria-expanded="${open}">
+      <span class="num">${esc(it.num)}</span>
+      <span class="head-main"><span class="ex-name">${esc(P.name)} <span class="alt">· ${esc(V.ch)} follow-along</span></span>
+        <span class="ex-meta"><span class="target">${esc(targetText(it))}</span>${isNext ? '<span class="next-pill">Next</span>' : ''}</span>
+        <span class="ex-prev">${prev ? 'Last: ' + esc(fmtShort(prev.session.date)) + ' · ' + esc(flowSummary(prev.entry)) : 'No previous session'}</span></span>
+      ${cardStatus(done, 0, 1)}
+    </button>`;
+  if (!open) return h + '</section>';
+  const end = it.rounds && P.roundEnds ? P.roundEnds[it.rounds - 1] : mmss(P.to);
+  h += `<div class="card-body">`;
+  if (it.note) h += `<p class="guide">${esc(it.note)}</p>`;
+  h += `<a class="demo" href="https://www.youtube.com/watch?v=${V.id}&t=${P.from}s" target="_blank" rel="noopener noreferrer">
+      <span class="play">${ICON.play}</span><span><b>Follow along from ${mmss(P.from)}</b><small>${esc(V.ch)} · ${mmss(P.from)}–${end} · ${esc(V.title)}</small></span><span class="ext">${ICON.ext}</span></a>`;
+  h += `<div><p class="sec-label">In this part</p><ul class="flow-moves">${P.moves.map(m => `<li>${esc(m)}</li>`).join('')}</ul></div>`;
+  if (ctx.readOnly){ h += `<p class="ro">View only — finish ${esc(DAY_BY_ID[S.active.dayId].label)} before logging this day.</p></div></section>`; return h; }
+  if (P.rounds){
+    const r = e && e.rounds;
+    h += `<div><p class="sec-label">Rounds done · target ${it.rounds || P.rounds}</p><div class="rounds">${Array.from({ length:P.rounds }, (_, k) => k + 1).map(n => `<button class="chip" data-act="flow-rounds" data-slot="${slot}" data-v="${n}" aria-pressed="${r === n}">${n}${n === (it.rounds || P.rounds) ? ' ✓' : ''}</button>`).join('')}</div></div>`;
+  }
+  if (done){
+    const nx = ctx.session && nextSlot(ctx.session);
+    h += `<div class="row2">${nx ? `<button class="btn-primary" style="flex:1" data-act="gonext" data-slot="${nx}">Next: ${esc(itemName(nx))} →</button>` : `<button class="btn-primary" style="flex:1" data-act="finish">Finish ${sessWord(it.dayId)}</button>`}<button class="btn-text" data-act="flow-undone" data-slot="${slot}">Reopen</button></div>`;
+  } else h += `<button class="btn-primary block" data-act="flow-done" data-slot="${slot}">${ICON.check} Mark done</button>`;
+  h += `<div><label class="fld-label" for="note-${slot}">Notes</label><textarea id="note-${slot}" data-nf="${slot}" rows="2" placeholder="Which moves felt tight, what to modify…">${esc(e ? e.notes : '')}</textarea>${prev && prev.entry.notes ? `<p class="lastnote">Last note: ${esc(prev.entry.notes)}</p>` : ''}</div>`;
+  return h + '</div></section>';
+}
 function cfield(key, label, val, opt, i){
   return `<label class="fld"><span class="fld-label">${esc(label)}${opt ? ' <em>optional</em>' : ''}</span><input data-cf="${key}" ${i != null ? `data-i="${i}"` : ''} inputmode="decimal" autocomplete="off" enterkeyhint="done" value="${fmtNum(val)}"></label>`;
 }
@@ -979,9 +1185,9 @@ function renderSessionFooter(a){
   return `<section class="session">
     <h2>Session</h2>
     <div><label class="fld-label" for="sessNotes">Session notes</label><textarea id="sessNotes" data-sf="notes" rows="3" placeholder="Energy, sleep, anything worth remembering…">${esc(a.notes)}</textarea></div>
-    <div><label class="fld-label" for="sessDate">Workout date</label><input type="date" id="sessDate" class="date-in" data-sf="date" value="${esc(a.date)}"></div>
-    <button class="btn-primary block" data-act="finish">${a.editing ? 'Save changes' : 'Finish workout'}</button>
-    <button class="btn-text danger" data-act="discard">${a.editing ? 'Cancel editing (keep original)' : 'Discard this workout'}</button>
+    <div><label class="fld-label" for="sessDate">Date</label><input type="date" id="sessDate" class="date-in" data-sf="date" value="${esc(a.date)}"></div>
+    <button class="btn-primary block" data-act="finish">${a.editing ? 'Save changes' : 'Finish ' + sessWord(a.dayId)}</button>
+    <button class="btn-text danger" data-act="discard">${a.editing ? 'Cancel editing (keep original)' : 'Discard this ' + sessWord(a.dayId)}</button>
   </section>`;
 }
 
@@ -989,9 +1195,14 @@ function renderBar(){
   const a = S.active; const bar = $('#bar'), inner = $('#barIn');
   if (!a && S.ui.view === 'history'){ bar.hidden = true; return; }
   bar.hidden = false;
-  if (!a){ inner.innerHTML = `<div class="bar-in"><button class="btn-primary block" data-act="start" style="min-height:56px">Start ${esc(DAY_BY_ID[S.ui.dayId].label)} workout</button></div>`; return; }
+  if (!a){ inner.innerHTML = `<div class="bar-in"><button class="btn-primary block" data-act="start" style="min-height:56px">Start ${esc(DAY_BY_ID[S.ui.dayId].label)} ${sessWord(S.ui.dayId)}</button></div>`; return; }
   const undoBtn = `<button class="bar-undo" data-act="undo" ${undoStack.length ? '' : 'disabled'} aria-label="Undo last change">${ICON.undo}Undo</button>`;
   const now = Date.now(); let mid;
+  if (HOLD){
+    inner.innerHTML = `<div class="bar-in"><div class="hold-run" aria-live="off"><div class="rest-top"><span class="k" id="holdK">Get set</span><span class="rest-time" id="holdTime">5</span></div><div class="hold-sub" id="holdSub">${esc(itemName(HOLD.slot))} · target ${HOLD.min === HOLD.max ? HOLD.max : HOLD.min + '–' + HOLD.max} s</div></div>
+      <button class="hold-stop" data-act="hold-stop">Stop</button><button class="rest-btn" data-act="hold-cancel" aria-label="Cancel hold">${ICON.close}</button></div>`;
+    tick(); return;
+  }
   if (S.rest && !S.rest.doneAt){
     const left = Math.max(0, (S.rest.endsAt - now) / 1000);
     mid = `<div class="rest-run" aria-live="off"><div class="rest-top"><span class="k">Rest</span><span class="rest-time" id="restTime">${fmtClock(Math.ceil(left))}</span></div><div class="rest-track"><i id="restFill" style="width:${Math.min(100, (1 - left / S.rest.total) * 100)}%"></i></div></div>
@@ -1000,7 +1211,7 @@ function renderBar(){
     mid = `<div class="rest-done" role="status">Rest complete</div><button class="rest-btn" data-act="rest-stop" aria-label="Dismiss">${ICON.close}</button>`;
   } else {
     const p = progressOf(a);
-    if (p.done === p.total) mid = `<button class="btn-primary" style="flex:1;min-height:54px" data-act="finish">${a.editing ? 'Save changes' : 'Finish workout'}</button>`;
+    if (p.done === p.total) mid = `<button class="btn-primary" style="flex:1;min-height:54px" data-act="finish">${a.editing ? 'Save changes' : 'Finish ' + sessWord(a.dayId)}</button>`;
     else mid = `<span class="rest-l">Rest</span><div class="rest-chips">${REST_OPTS.map(([s, l]) => `<button class="rest-chip" data-act="rest" data-s="${s}" aria-pressed="${S.settings.restSec === s}" aria-label="Start ${l} rest">${l}</button>`).join('')}</div>`;
   }
   inner.innerHTML = `<div class="bar-in">${undoBtn}${mid}</div>`;
@@ -1052,17 +1263,23 @@ function linesHTML(lines){ return '<ol class="lines">' + lines.map(l => `<li><sp
 function exerciseHistoryBlocks(){
   let h = ''; const seen = new Set();
   DAYS.forEach(d => {
-    d.items.forEach(it => it.moves.forEach(m => {
+    d.items.filter(it => it.moves).forEach(it => it.moves.forEach(m => {
       if (seen.has(m)) return; seen.add(m);
       const lines = movementLines(m); if (!lines.length) return;
       const last = lines[lines.length - 1];
       h += `<details class="exh"><summary><b>${esc(MOVES[m].name)}</b><small>${lines.length} session${lines.length > 1 ? 's' : ''} · last ${esc(fmtShort(last.date))}: ${esc(last.v)}</small></summary>${linesHTML(lines)}</details>`;
     }));
-    const cl = cardioLines(d.cardio.kind);
+    d.items.filter(it => it.kind === 'flow').forEach(it => {
+      if (seen.has(it.part)) return; seen.add(it.part);
+      const fl = flowLines(it.part); if (!fl.length) return;
+      h += `<details class="exh"><summary><b>${esc(FLOW_PARTS[it.part].name)}</b><small>${fl.length} session${fl.length > 1 ? 's' : ''} · last ${esc(fmtShort(fl[fl.length - 1].date))}: ${esc(fl[fl.length - 1].v)}</small></summary>${linesHTML(fl)}</details>`;
+    });
+    const cl = d.cardio ? cardioLines(d.cardio.kind) : [];
     if (cl.length) h += `<details class="exh"><summary><b>${esc(d.label)} cardio · ${esc(d.cardio.name)}</b><small>${cl.length} session${cl.length > 1 ? 's' : ''} · last ${esc(fmtShort(cl[cl.length - 1].date))}</small></summary>${linesHTML(cl)}</details>`;
   });
   return h || '<div class="empty">No exercise data yet.</div>';
 }
+function flowLines(part){ return S.history.slice().sort((a, b) => sortKey(a) < sortKey(b) ? -1 : 1).flatMap(s => Object.values(s.entries || {}).filter(e => e && e.kind === 'flow' && e.part === part && e.done).map(e => ({ date:s.date, v:flowSummary(e), n:e.notes }))); }
 function cardioLines(kind){ return S.history.slice().sort((a, b) => sortKey(a) < sortKey(b) ? -1 : 1).filter(s => s.cardio && s.cardio.kind === kind && cardioLogged(s.cardio)).map(s => ({ date:s.date, v:cardioSummary(s.cardio), n:s.cardio.notes })); }
 
 function openSession(id){
@@ -1070,10 +1287,12 @@ function openSession(id){
   const day = DAY_BY_ID[s.dayId]; const p = progressOf(s);
   let h = `<div class="sheet-head"><div><h2>${esc(fmtLong(s.date))}</h2><p class="sub">${esc(day.label)} · ${esc(day.title)}<br>${fmtDur(s.durationSec)} · ${p.done}/${p.total} complete</p></div><button class="icon-btn" data-act="close-modal" aria-label="Close">${ICON.close}</button></div>`;
   day.items.forEach(it => {
-    const e = s.entries[it.slot]; const M = MOVES[e.move]; const sum = setsSummary(it, M, e.sets);
+    const e = s.entries[it.slot];
+    if (it.kind === 'flow'){ h += `<div class="sd-ex"><b>${esc(it.num)}. ${esc(FLOW_PARTS[it.part].name)}</b><div class="v">${esc(flowSummary(e))}</div>${e.notes ? `<div class="n">“${esc(e.notes)}”</div>` : ''}</div>`; return; }
+    const M = MOVES[e.move]; const sum = setsSummary(it, M, e.sets);
     h += `<div class="sd-ex"><b>${esc(it.num)}. ${esc(M.name)}</b> <span class="r">· ${esc(targetText(it))}${e.done ? '' : ' · not completed'}</span><div class="v">${sum ? esc(sum) : '<span class="r">Not logged</span>'}</div>${rirLine(e.sets) ? `<div class="r">${esc(rirLine(e.sets))}</div>` : ''}${e.notes ? `<div class="n">“${esc(e.notes)}”</div>` : ''}</div>`;
   });
-  h += `<div class="sd-ex"><b>Cardio · ${esc(day.cardio.name)}</b><div class="v">${cardioLogged(s.cardio) ? esc(cardioSummary(s.cardio)) : '<span class="r">Not logged</span>'}</div>${s.cardio.notes ? `<div class="n">“${esc(s.cardio.notes)}”</div>` : ''}</div>`;
+  if (day.cardio) h += `<div class="sd-ex"><b>Cardio · ${esc(day.cardio.name)}</b><div class="v">${cardioLogged(s.cardio) ? esc(cardioSummary(s.cardio)) : '<span class="r">Not logged</span>'}</div>${s.cardio.notes ? `<div class="n">“${esc(s.cardio.notes)}”</div>` : ''}</div>`;
   if (s.notes) h += `<div class="sd-notes">${esc(s.notes)}</div>`;
   h += `<div class="actions"><button class="btn-secondary block" data-act="edit-session" data-id="${esc(s.id)}">Edit this session</button><button class="btn-text danger" data-act="delete-session" data-id="${esc(s.id)}">Delete this session</button></div>`;
   openSheet(h);
@@ -1094,12 +1313,12 @@ function ensureActive(dayId){
   S.ui.justSaved = null; saveActive(); saveUI();
   try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {}); } catch(e){}
   renderHeader(); renderBar(); syncWakeLock();
-  toast('Workout started — timer running');
+  toast((isHome(dayId) ? 'Session' : 'Workout') + ' started — timer running');
   return true;
 }
 function startWorkout(dayId){
   if (S.active && S.active.dayId !== dayId){
-    dialog({ title:`${DAY_BY_ID[S.active.dayId].label} is in progress`, body:'Finish or discard it before starting another day.', actions:[{ label:`Go to ${DAY_BY_ID[S.active.dayId].label}`, value:true, kind:'primary' }, { label:'Close' }] })
+    dialog({ title:`${DAY_BY_ID[S.active.dayId].label} is in progress`, body:'Finish or discard it before starting another one.', actions:[{ label:`Go to ${DAY_BY_ID[S.active.dayId].label}`, value:true, kind:'primary' }, { label:'Close' }] })
       .then(v => { if (v){ S.ui.dayId = S.active.dayId; S.ui.view = 'day'; saveUI(); renderAll(); } });
     return;
   }
@@ -1149,17 +1368,23 @@ function setRir(slot, i, v){
   const s = e.sets[i]; s.rir = s.rir === v ? null : v; saveActive();
   document.querySelectorAll(`.chip[data-slot="${slot}"][data-i="${i}"]`).forEach(c => c.setAttribute('aria-pressed', String(+c.dataset.v === s.rir)));
 }
-function completeSet(slot, i){
+function completeSet(slot, i, opts = {}){
   const it = ITEM_BY_SLOT[slot]; const e = entryFor(slot); if (!e) return;
   const k = valKey(it); const s = e.sets[i];
   if (s[k] == null){ toast(`Enter ${k === 'seconds' ? 'seconds' : 'reps'} for set ${i + 1} first`); const inp = document.getElementById(`in-${slot}-${i}-${k}`); if (inp) inp.focus(); return; }
-  pushUndo(`Complete set ${i + 1}`);
+  if (!opts.noUndo) pushUndo(`Complete set ${i + 1}`);
   s.done = true; s.at = Date.now(); S.tmp.openSet = null;
   const nx = e.sets[i + 1]; if (nx && !nx.done && nx.weight == null && s.weight != null) nx.weight = s.weight;
   if (e.sets.every(x => x.done)) e.done = true;
   saveActive();
-  if (S.settings.autoRest) startRest(S.settings.restSec, true);
+  let jump = null;
+  if (it.circuit){ jump = circuitNext(slot); if (jump){ S.ui.open[it.dayId] = jump; saveUI(); } }
+  if (S.settings.autoRest && (jump || !e.done || !it.circuit)){
+    if (it.kind === 'hold') startRest(it.circuit ? CIRCUIT_REST : it.rest, true, false);
+    else startRest(S.settings.restSec, true);
+  }
   renderAll();
+  if (jump && jump !== slot) scrollToCard(jump);
 }
 function uncompleteSet(slot, i){ const e = entryFor(slot); if (!e) return; pushUndo(`Reopen set ${i + 1}`); e.sets[i].done = false; e.done = false; S.tmp.openSet = null; saveActive(); renderAll(); }
 function completeExercise(slot){
@@ -1187,9 +1412,60 @@ function ivlStop(){
   delete S.active.ivl; lastIvlKey = null; saveActive(); renderDay();
 }
 
+/* ---------- hold timer (hands-free: 5 s get-set, beep at range min, double beep at max) ---------- */
+let HOLD = null;
+function holdStart(slot, i){
+  const it = ITEM_BY_SLOT[slot]; const e = entryFor(slot); if (!e) return;
+  S.rest = null; saveRest(); unlockAudio();
+  const now = Date.now(); HOLD = { slot, i, start:now + 5000, min:it.min, max:it.max, lastLead:6, cued:{} };
+  renderBar(); syncWakeLock();
+}
+function holdStop(cancel){
+  if (!HOLD) return; const h = HOLD; HOLD = null; const now = Date.now();
+  if (cancel || now < h.start){ renderBar(); toast('Hold cancelled'); return; }
+  const e = S.active && S.active.entries[h.slot]; if (!e){ renderBar(); return; }
+  pushUndo(`Hold set ${h.i + 1}`);
+  e.sets[h.i].seconds = Math.max(1, Math.round((now - h.start) / 1000)); saveActive();
+  completeSet(h.slot, h.i, { noUndo:true });
+  toast(`Set ${h.i + 1}: ${e.sets[h.i].seconds} s logged`, { undo:true });
+}
+function holdTick(now){
+  const t = $('#holdTime'), k = $('#holdK'), sub = $('#holdSub'); const h = HOLD;
+  if (now < h.start){
+    const lead = Math.ceil((h.start - now) / 1000);
+    if (lead !== h.lastLead){ h.lastLead = lead; if (lead <= 3) chime('tick'); }
+    if (k) k.textContent = 'Get set'; if (t) t.textContent = String(lead); return;
+  }
+  const el = (now - h.start) / 1000;
+  if (!h.cued.go){ h.cued.go = true; chime('go'); }
+  if (el >= h.min && !h.cued.min && h.min !== h.max){ h.cued.min = true; chime('min'); }
+  if (el >= h.max && !h.cued.max){ h.cued.max = true; chime('rest'); }
+  if (k) k.textContent = 'Hold'; if (t) t.textContent = Math.floor(el) + ' s';
+  if (sub){ const inRange = el >= h.min; sub.className = 'hold-sub' + (inRange ? ' in' : ''); sub.textContent = el >= h.max ? 'Top of range — stop when ready' : inRange ? 'In range ✓' : `${itemName(h.slot)} · target ${h.min === h.max ? h.max : h.min + '–' + h.max} s`; }
+}
+
+/* ---------- flows ---------- */
+function flowDone(slot){
+  const it = ITEM_BY_SLOT[slot]; const e = entryFor(slot); if (!e) return; pushUndo('Mark done');
+  e.done = true; if (FLOW_PARTS[it.part].rounds && e.rounds == null) e.rounds = it.rounds || FLOW_PARTS[it.part].rounds;
+  saveActive(); const nx = nextSlot(S.active); S.ui.open[it.dayId] = nx; saveUI(); renderAll(); if (nx) scrollToCard(nx);
+}
+function flowUndone(slot){ const e = entryFor(slot); if (!e) return; pushUndo('Reopen'); e.done = false; saveActive(); renderAll(); }
+function flowRounds(slot, n){ const e = entryFor(slot); if (!e) return; pushUndo('Rounds'); e.rounds = e.rounds === n ? null : n; saveActive(); renderDay(); }
+
+/* ---------- gym / home switching ---------- */
+function todayDay(){ return ['h1','d1','h1','d2','h2','d3','h3'][new Date().getDay()]; }
+function setMode(mode){
+  const cur = DAY_BY_ID[S.ui.dayId]; if (S.ui.view === 'day' && cur && cur.group === mode) return;
+  if (cur) S.ui.lastDay[cur.group] = cur.id;
+  const t = todayDay();
+  S.ui.dayId = S.active && DAY_BY_ID[S.active.dayId].group === mode ? S.active.dayId : DAY_BY_ID[t].group === mode ? t : (S.ui.lastDay[mode] || DAYS.find(d => d.group === mode).id);
+  S.ui.view = 'day'; S.tmp.openSet = null; saveUI(); renderAll(); window.scrollTo(0, 0);
+}
+
 /* ---------- rest timer ---------- */
-function startRest(sec, quiet){
-  S.rest = { endsAt:Date.now() + sec * 1000, total:sec }; S.settings.restSec = sec; saveRest(); saveSettings();
+function startRest(sec, quiet, remember = true){
+  S.rest = { endsAt:Date.now() + sec * 1000, total:sec }; if (remember){ S.settings.restSec = sec; saveSettings(); } saveRest();
   if (!quiet) renderBar(); syncWakeLock();
 }
 function addRest(sec){ if (!S.rest || S.rest.doneAt) return; S.rest.endsAt += sec * 1000; S.rest.total += sec; saveRest(); renderBar(); }
@@ -1200,19 +1476,19 @@ async function finishWorkout(){
   const a = S.active; if (!a) return; const p = progressOf(a);
   const editing = !!a.editing;
   const ok = await dialog({
-    title: editing ? 'Save changes to this session?' : 'Finish workout?',
+    title: editing ? 'Save changes to this session?' : `Finish ${sessWord(a.dayId)}?`,
     body: editing ? 'The original date and duration are kept.' : `${p.done} of ${p.total} complete · ${fmtDur((Date.now() - a.startedAt) / 1000)}${p.done < p.total ? '<br>Unfinished items are saved exactly as logged.' : ''}`,
     actions:[{ label:editing ? 'Save changes' : 'Finish & save', value:true, kind:'primary' }, { label:'Keep going' }] });
   if (!ok) return;
   pushUndo(editing ? 'Save edits' : 'Finish workout', { history:true });
   const s = JSON.parse(JSON.stringify(a)); delete s.ivl; delete s.editing; delete s.original;
   if (!editing){ s.endedAt = Date.now(); s.durationSec = Math.round((s.endedAt - s.startedAt) / 1000); }
-  DAY_BY_ID[s.dayId].items.forEach(it => { const e = s.entries[it.slot]; if (e){ e.moveName = MOVES[e.move].name; e.target = targetText(it); } });
+  DAY_BY_ID[s.dayId].items.forEach(it => { const e = s.entries[it.slot]; if (!e) return; e.target = targetText(it); if (it.kind === 'flow') e.partName = FLOW_PARTS[it.part].name; else e.moveName = MOVES[e.move].name; });
   S.history = S.history.filter(x => x.id !== s.id).concat([s]);
-  S.active = null; S.rest = null; S.ui.justSaved = s.id; S.ui.open[s.dayId] = null; lastIvlKey = null;
+  S.active = null; S.rest = null; HOLD = null; S.ui.justSaved = s.id; S.ui.open[s.dayId] = null; lastIvlKey = null;
   saveHistory(); saveActive(); saveRest(); saveUI(); syncWakeLock();
   renderAll(); window.scrollTo(0, 0);
-  toast(editing ? 'Changes saved' : 'Workout saved', { undo:true });
+  toast(editing ? 'Changes saved' : (isHome(s.dayId) ? 'Session saved' : 'Workout saved'), { undo:true });
 }
 async function discardWorkout(){
   const a = S.active; if (!a) return;
@@ -1222,9 +1498,10 @@ async function discardWorkout(){
     S.history = S.history.filter(x => x.id !== a.original.id).concat([a.original]); S.active = null;
     saveHistory(); saveActive(); renderAll(); toast('Edits discarded', { undo:true }); return;
   }
-  const ok = await dialog({ title:'Discard this workout?', body:'Everything logged in this session will be removed. You can undo right after.', actions:[{ label:'Discard workout', value:true, kind:'danger' }, { label:'Keep it' }] });
-  if (!ok) return; pushUndo('Discard workout');
-  S.active = null; S.rest = null; lastIvlKey = null; saveActive(); saveRest(); syncWakeLock(); renderAll(); toast('Workout discarded', { undo:true });
+  const w = sessWord(a.dayId);
+  const ok = await dialog({ title:`Discard this ${w}?`, body:'Everything logged in this session will be removed. You can undo right after.', actions:[{ label:`Discard ${w}`, value:true, kind:'danger' }, { label:'Keep it' }] });
+  if (!ok) return; pushUndo('Discard ' + w);
+  S.active = null; S.rest = null; HOLD = null; lastIvlKey = null; saveActive(); saveRest(); syncWakeLock(); renderAll(); toast(w[0].toUpperCase() + w.slice(1) + ' discarded', { undo:true });
 }
 async function editSession(id){
   const s = S.history.find(x => x.id === id); if (!s) return;
@@ -1306,7 +1583,14 @@ document.addEventListener('click', ev => {
   const el = ev.target.closest('[data-act]'); if (!el || el.disabled) return;
   const d = el.dataset, slot = d.slot, i = d.i != null ? +d.i : null;
   switch (d.act){
-    case 'view-day': S.ui.view = 'day'; S.ui.dayId = d.day; S.tmp.openSet = null; saveUI(); closeSheet(); renderAll(); window.scrollTo(0, 0); break;
+    case 'view-day': S.ui.view = 'day'; S.ui.dayId = d.day; S.ui.lastDay[DAY_BY_ID[d.day].group] = d.day; S.tmp.openSet = null; saveUI(); closeSheet(); renderAll(); window.scrollTo(0, 0); break;
+    case 'mode': setMode(d.mode); break;
+    case 'flow-done': flowDone(slot); break;
+    case 'flow-undone': flowUndone(slot); break;
+    case 'flow-rounds': flowRounds(slot, +d.v); break;
+    case 'hold-start': holdStart(slot, i); break;
+    case 'hold-stop': holdStop(false); break;
+    case 'hold-cancel': holdStop(true); break;
     case 'view-history': S.ui.view = S.ui.view === 'history' ? 'day' : 'history'; saveUI(); renderAll(); window.scrollTo(0, 0); break;
     case 'toggle': toggleCard(slot); break;
     case 'variant': setVariant(slot, d.move); break;
@@ -1381,6 +1665,7 @@ document.addEventListener('change', e => {
    ===================================================================== */
 function tick(){
   const now = Date.now(), a = S.active;
+  if (HOLD) holdTick(now);
   if (a && !a.editing){ const t = $('#hdrTimer'); if (t) t.textContent = fmtClock((now - a.startedAt) / 1000); }
   if (S.rest){
     if (!S.rest.doneAt){
@@ -1406,13 +1691,10 @@ function tick(){
 /* =====================================================================
    INIT
    ===================================================================== */
-function defaultDay(){
-  const wd = new Date().getDay(); if (wd === 1) return 'd1'; if (wd === 3) return 'd2'; if (wd === 5) return 'd3';
-  const last = sortedHistory()[0]; if (!last) return 'd1';
-  const idx = DAYS.findIndex(d => d.id === last.dayId); return DAYS[(idx + 1) % DAYS.length].id;
-}
+function defaultDay(){ return todayDay(); }
 function init(){
   if (S.active && !DAY_BY_ID[S.active.dayId]) S.active = null;
+  if (!S.ui.lastDay || typeof S.ui.lastDay !== 'object') S.ui.lastDay = {};
   if (S.active) normalizeSession(S.active);
   if (S.rest && (typeof S.rest.endsAt !== 'number' || Date.now() - S.rest.endsAt > 60000)) S.rest = null;
   if (S.active && S.active.ivl){ const st = ivlState(Date.now()); lastIvlKey = st ? st.key : null; }
@@ -1423,7 +1705,7 @@ function init(){
   setInterval(tick, 250); syncWakeLock();
   if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register('sw.js').catch(() => {});
 }
-window.__gym = { S, DAYS, MOVES, findPrev, rangeDone, buildExport, parseBackup, applyImport, importFromText, tick, ivlState };
+window.__gym = { S, DAYS, MOVES, FLOW_PARTS, FLOW_VIDEOS, findPrev, rangeDone, buildExport, parseBackup, applyImport, importFromText, tick, ivlState, get HOLD(){ return HOLD; } };
 init();
 </script>
 </body>

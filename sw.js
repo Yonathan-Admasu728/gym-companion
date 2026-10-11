@@ -1,6 +1,6 @@
 // Optional offline support. Network-first so updates show up right away when you have signal;
 // falls back to the cached copy if the network fails or takes longer than 3 seconds (gym basements).
-const CACHE = 'gym-companion-v2';
+const CACHE = 'gym-companion-v3';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './apple-touch-icon.png', './icon-512.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => Promise.all(ASSETS.map(a => c.add(a).catch(() => {})))));
